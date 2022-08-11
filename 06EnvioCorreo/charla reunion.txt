@@ -1,0 +1,34 @@
+Lo que todos estos trabajos tienen en comun es que utilizan grandes estrcuturas (algoritmos, arquitecturas)
+para... es por ello el desafio de este trabajo es conseguir resultados similares o mejores utilizando menos recursos, como una pc de escritorio (o algo asi)
+y algoritmos mas simples
+
+2 observacion
+	Metricas: error promedio de clasificacion, sensibilidad y especificidad
+	Esta evaluacion consistira en calcular el error medio de clasificaion, sensibilidad y espicificidad (En la defensa explicar que aca es donde hice la
+	las expermientaciones y como)
+
+3 observacion
+	En la figura 20. Cabe aclarar que estas etapas  se corresponden a las etapas del esquema del proceso de diagnostico de tubectulosis presentado en la figura del capitulo2
+
+4 observacion
+	Poner en trabajo futuros en continuar contribuyendo como primero en la lista
+		. Publicar los resultados obtenidos en este trabajo final de carrera en un evento cientifico del area.
+
+5 observacion
+	En 1.5 alcance poner que hace el prototipo: 
+		... realizara el diagnostico de tuberculosis, es decir indicara si adiografia corresponde o no a un paciente con 
+		tuberculosis. Se trabajaran con imagenes radiograficas de torax .....
+
+NO
+[el prototpipo a desarrollar se limitara a indicar si la radiografia corresponde o no a un paciente con 
+		tuberculosis. Se tomara las imagenes radiogracias de torax obtenidas ....]
+
+
+
+EN LO RESALTADO:
+
+	SACAR GRAFICA RESALTADA DE RANDOM FOREST
+
+	EN VES DE PRECISION APROXIMADA A RADIOLOGOS ENTRENADOS PONER VA A TRABAJO CONSULTADOS, EN CONCLUSIONES TRABAJOS SIMILARES
+
+	CONTROLAR EL NUMERO DE FIGURAS CUANDO SAQUE EL 26

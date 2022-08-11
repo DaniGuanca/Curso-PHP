@@ -1,0 +1,242 @@
+Todo lo que quiera ejecutare en el servidor del xampp siempre va en htdocs
+
+Como html para abrir y cerrar tiene < y />
+En php se usa para abrir: <?php
+y para cerrar: ?>
+
+En php las variables se declaran con $ con con var, const, etc
+
+echo es para pintar pantalla o salida
+echo tambien puede detectar etiquetas html
+
+En PHP para concatenar no se usa + como en otros lenguajes, se usa . (punto)
+
+Se puede meter variables dentro del ""
+Con la contra barra \ se puede escapar de caracteres especiales para mostrarlos por ""
+
+&aacute es para mostrar un acento
+
+Metodo GET envia por cabecera de url y metodo POST envia datos encriptados
+
+enctype="application/x-www-form-urlencoded" en el form es para enviar varios datos por formulario que se van a tratar como variables
+
+$_GET y $_POST son VARIABLES GLOBALES de php que se crea cuando se mandan datos por metodo get o por metodo post
+y son arreglos que contiene todos los datos enviados
+
+PHP USA ARREGLOS ASOCIATIVOS 
+
+Cuando mandamos archivos se crea la variable global $_FILES
+
+En los arreglos se puede acceder a la informacion a traves de corchetes como en todos, pero ademas tambien buscar y acceder
+al elemento del arreglo["elemento a buscar"] o ["nombre del elemento"]
+
+isset(variable) determina si existe o no la variable, true si existe, false si no (OJO no su valor, solo si existe)
+
+header() es para establecer tipos de cabeceras pero tambien sirve para redirigir el flujo de la aplicacion PHP
+para usar para redireccion es header("Location: direccion que quiero mandar")
+
+
+error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); ESTO ES PARA EVITAR MOSTRAR ADVERTENCIAS EN EL LOCALHOST
+
+move_uploaded_file es una funcion que recibe el archivo y el destino a donde mover el archivo
+lo que hace es mover el archivo
+unlink(ruta del archivo) es para borrar archivos del servidor
+
+Las cookies son archivos de textos que se guardan en el navegador del usuario, que nos permiten configurar o
+guardar ciertas preferencias cuando accede a un sitio.
+Un ejemplo de cookies es cuando en una pagina te hacen elegir tu region para redirigir al sitio de por ejemplo
+america latina.
+
+En el ejercicio 04Cookies uso las cookies para segun el idioma elegido redireccionar a la pagina correspondiente.
+Para grabar o guardar una cookie se usa la funcion setcookie()
+Recibe varios parametros:
+    1° Recibe el nombre 
+    2° El valor que va a tener la cookie
+    3° La duracion de la cookie. En el ejercicio pongo, time() + 86400 ,que equivale a 24 horas desde el momento en que se hace
+    4° En que directorio va a convivir la cookie, si no se especifica solo se puede usar en el mismo archivo
+        Para que la cookie funcione se tiene que especificar la ruta del directorio en el cuarto parametro
+        con "/", se entiende que la cookie existira en todo el directorio del sitio
+
+Entonces la funcion queda asi:
+    * setcookie("nombre", valor, duracion, "/");
+
+$_COOKIE es la variable global de las cookies
+
+No hay una funcion para borrar una cookie entonces lo que hago es asignarle vacio al valor, y caducarla poniendo
+su duracion en negativo:
+                        setcookie("nombre","", time()-1)
+
+Las COOKIES se guardan del lado del CLIENTE
+Las SESIONES se guardan del lado del SERVIDOR
+
+Ejemplo de sesiones es el inicio de sesion de las redes sociales.
+Iniciamos la sesion con la funcion session_start();
+EN PHP SIEMPRE QUE TRABAJEMOS CON SESION HAY QUE INICIARLA con session_start();
+Todas las variables que necesitamos mostrar en la sesion las creamos mediante variables de sesion
+Las variables de sesion son: $_SESSION
+    Por ejemplo creo variable autenticado:  $_SESSION["autenticado"] = true
+
+Para acceder a archivos protegidos siempre se debe verificar que la variable autenticado este en true, es decir
+que el usuario este logueado.
+En el ejercio 05Sesiones yo hago esa verificacion en el archivo sesion.php y lo llamo en cada archivo protegido necesario
+
+Para destruir una sesion se usa la funcion session_destroy();
+
+Para incluir otro codigo en PHP se usa include("ruta del codigo");
+
+Para enviar MAILS por PHP se usa la funcion mail() que recibe 4 parametros:
+    1° Destinatario
+    2° Asunto
+    3° Mensaje
+    4° Cabecera
+Devuelve true si envio y false si no
+NO VA A FUNCIONAR SI NO TENES MOTOR PROTOCOLO SMTP PARA ENVIAR MAILS. PARA RECIBIR MAIL EL PROTOCOLO ES POP
+
+En PHP para acceder a propiedades de objetos y clases se usa ->   NO PUNTO PORQUE SE USA PARA CONCATENAR
+objeto->propiedad
+
+PASOS PARA CONECTARSE A LA BASE DE DATOS CON PHP ESTAN EN EL ARCHIVO prueba-bd.php
+    El or Die es para matar el proceso si no puede
+    1) Conectarse al servidor de BD con my_sqli_connect que recibe 3 parametros:
+        * Servidor
+        * Usuario de la Base de datos
+        * Contraseña del usuario
+
+        $conexion = mysqli_connect("localhost","root","") or die("No se pudo conectar la BD");
+        echo "Estoy conectando a MySQL<br/>";
+
+    2) Seleccionar la BD a usar con mysqli_select_db(linkConexion,"base de datos")
+
+        mysqli_select_db($conexion, "mis_contactos") or die("No se pudo seleccionar la BD mis_contactos");
+        echo "BD seleccionada: 'mis_contactos' <br/>";
+
+    ******************************************************************************************************
+    IMPORTANTE !!!!! CON mysqli EL PASO 1 Y 2 LO HAGO CON UNA SOLA INSTRUCCION
+    ASI:
+        mysqli recibe 4 parametros:
+            * Servidor
+            * Usuario de la Base de datos
+            * Contraseña del usuario
+            * Nombre de la base de datos a conectarse
+
+
+         $conectar = new mysqli("localhost", "root", "", "mis_contactos") or die("No se pudo conectar");
+
+    ******************************************************************************************************
+
+    3) Creamos una consulta a la BD para probar
+
+        $consulta = "SELECT * FROM pais";
+
+    4) Ejecutamos la consulta SQL con mysqli_query que recibe 2 parametros:
+        * La conexion a la BD
+        * La consulta
+
+        $ejecutar_consulta = mysqli_query($conexion,$consulta) or die("No se pudo ejecutar la consulta a la BD");
+        echo "Se ejecuto la consulta";
+
+        ***********************************************************************************************
+        PARA EJECUTAR LA CONSULTA CON mysqli (metodo nuevo) ES ASI:
+            Me meto a la variable conexion y ejecuto la funcion query que recibe la consulta a ejecutar
+
+            $ejecutar_consulta = $conexion->query($consulta);
+        ***********************************************************************************************
+    
+    5) Mostrar el resultado de ejecutar la consulta, el resultado de las consultas se devuelven en un arreglo
+        mediante un ciclo voy sacando cada registro con mysqli_fetch_array y lo muestro
+        
+        while($registro = mysqli_fetch_array($ejecutar_consulta)){
+            echo $registro["id_pais"]." - ".$registro["pais"]."<br/>";
+        }
+
+        ***********************************************************************************************
+        PARA MOSTRAR LOS DATOS DE LA CONSULTA CON mysqli (METODO NUEVO) ES ASI:
+            Me meto a la variable $ejecutar_consulta y ejecuto la funcion fetch_assoc() que devuelve
+            el array de datos:
+
+                while($registro = $ejecutar_consulta->fetch_assoc()){
+                    echo $registro["id_pais"]." - ".$registro["pais"]."<br/>";
+                }            
+        ***********************************************************************************************
+        SI QUIERO VER EL NUMERO DE RESULTADOS: 
+            num_rows devuelve el numero de resultados (filas) que obtuvo la consulta
+            
+            $num_reg = $ejecutar_consulta->num_rows;
+
+    6) Por ultimo cerramos la conexion a la BD con mysqli_close(conexion);
+
+        mysqli_close($conexion) or die("Ocurrio un error al cerrar la conexion");
+        echo "Conexion cerrada <br/>";
+
+        ***********************************************************************************************
+        PARA CERRAR LA CONEXION CON mysqli (METODO NUEVO) ES ASI:
+            Ejecuto la funcion close de la variable $conexion:
+
+                $conexio->close();  
+        ***********************************************************************************************
+-------------------------------------------------------------------------------------------------------------------
+
+
+strstr($cadena1,$cadena2) sirve para evaluar si en la primer cadena de texto existe la segunda cadena de texto
+    
+getimagesize("Nombre_imagen") devuelve en un arreglo el ancho y alto de una imagen:
+    $tam_img = getimagesize($imagen);
+    $ancho_img = $tam_img[0];
+    $alto_img = $tam_img[1];
+
+imagecreatetruecolor(ancho,alto) crea un lienzo de imagen con las dimensiones pasadas
+
+imagecreatefromjpeg($imagen) crea una nueva imagen jpg a partir de la imagen que recibe
+    $img_original = imagecreatefromjpeg($imagen);
+                        
+Reajusto la imagen nueva con respecto a la original con imagecopyresampled
+imagecopyresampled copia una imagen en una nueva imagen con las nuevas dimensiones pasadas como valor:
+
+    imagecopyresampled(ImagenDestino,ImagenOriginal,0,0,0,0,AnchoDeseado,AltoDeseado,AnchoViejo,AltoViejo);
+
+    Asi queda en el codigo:
+    imagecopyresampled($img_reajustada,$img_original,0,0,0,0,$nuevo_ancho_img, $nuevo_alto_img,$ancho_img,$alto_img);
+            
+
+imagejpeg(imagen, destino, calidad) guarda la imagen JPEG de entrada en el destino que le indicamos cpn la calidad indicada
+el nombre tiene que tener la extension
+
+    imagejpeg($img_reajustada,"../img/fotos/".$email.$extension, 100);
+
+ 
+ALGUNAS DE LAS FUNCIONES PARA JPEG CAMBIAN PARA OTRO TIPO 
+    ESTOS SON LOS CAMBIOS PARA GIF:
+        * imagecreatefromjpeg ahora es imagecreatefromgif
+        * imagejpeg ahora es imagegif
+
+    ESTOS SON LOS CAMBIOS PARA PNG:
+        * imagecreatefromjpeg ahora es imagecreatefrompng
+        * imagejpeg ahora es imagepng IMPORTANTE EN PNG NO VA EL PARAMETRO CALIDAD
+
+
+file_exists(nombre con ruta y extension ) evalua si un archivo existe y 
+la funcion unlink(nombre con ruta y extension) borra un archivo del servidor
+
+La funcion empty(variable) se fija si la variable esta vacia o no
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+ESTA CONSULTA SQL HICE PARA CREAR UNA TABLA:
+
+CREATE TABLE contactos(
+    email VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    sexo CHAR(1),
+    nacimiento DATE,
+    telefono VARCHAR(13),
+    pais VARCHAR(50) NOT NULL,
+    imagen VARCHAR(50),
+    PRIMARY KEY (email),
+    FULLTEXT KEY buscador (email, nombre, sexo, telefono, pais)
+)ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+Las cosas ya las se hacer, prestar atencion a FULLTEXT KEY buscador (email, nombre, sexo, telefono, pais)
+Este FULLTEXT KEY buscador, lo que hace es buscar el contenido de la variable buscador en los campos que
+estan entre parentesis. Me viene de 10 para hacer busquedas a la BD
+

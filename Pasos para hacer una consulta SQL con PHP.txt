@@ -1,0 +1,80 @@
+PASOS PARA CONECTARSE A LA BASE DE DATOS CON PHP ESTAN EN EL ARCHIVO prueba-bd.php
+    El or Die es para matar el proceso si no puede
+    1) Conectarse al servidor de BD con my_sqli_connect que recibe 3 parametros:
+        * Servidor
+        * Usuario de la Base de datos
+        * Contraseña del usuario
+
+        $conexion = mysqli_connect("localhost","root","") or die("No se pudo conectar la BD");
+        echo "Estoy conectando a MySQL<br/>";
+
+    2) Seleccionar la BD a usar con mysqli_select_db(linkConexion,"base de datos")
+
+        mysqli_select_db($conexion, "mis_contactos") or die("No se pudo seleccionar la BD mis_contactos");
+        echo "BD seleccionada: 'mis_contactos' <br/>";
+
+
+    ******************************************************************************************************
+    IMPORTANTE !!!!! CON mysqli EL PASO 1 Y 2 LO HAGO CON UNA SOLA INSTRUCCION
+    ASI:
+        mysqli recibe 4 parametros:
+            * Servidor
+            * Usuario de la Base de datos
+            * Contraseña del usuario
+            * Nombre de la base de datos a conectarse
+
+
+         $conectar = new mysqli("localhost", "root", "", "mis_contactos") or die("No se pudo conectar");
+
+    ******************************************************************************************************
+
+    3) Creamos una consulta a la BD para probar
+
+        $consulta = "SELECT * FROM pais";
+
+    4) Ejecutamos la consulta SQL con mysqli_query que recibe 2 parametros:
+        * La consulta
+        * La conexion a la BD
+
+        $ejecutar_consulta = mysqli_query($conexion,$consulta) or die("No se pudo ejecutar la consulta a la BD");
+        echo "Se ejecuto la consulta";
+
+        ***********************************************************************************************
+        PARA EJECUTAR LA CONSULTA CON mysqli (metodo nuevo) ES ASI:
+            Me meto a la variable conexion y ejecuto la funcion query que recibe la consulta a ejecutar
+
+            $ejecutar_consulta = $conexion->query($consulta);
+        ***********************************************************************************************
+
+    5) Mostrar el resultado de ejecutar la consulta, el resultado de las consultas se devuelven en un arreglo
+        mediante un ciclo voy sacando cada registro con mysqli_fetch_array y lo muestro
+        
+        while($registro = mysqli_fetch_array($ejecutar_consulta)){
+            echo $registro["id_pais"]." - ".$registro["pais"]."<br/>";
+        }
+
+        ***********************************************************************************************
+        PARA MOSTRAR LOS DATOS DE LA CONSULTA CON mysqli (METODO NUEVO) ES ASI:
+            Me meto a la variable $ejecutar_consulta y ejecuto la funcion fetch_assoc() que devuelve
+            el array de datos:
+
+                while($registro = $ejecutar_consulta->fetch_assoc()){
+                    echo $registro["id_pais"]." - ".$registro["pais"]."<br/>";
+                }            
+        ***********************************************************************************************
+        SI QUIERO VER EL NUMERO DE RESULTADOS: 
+            num_rows devuelve el numero de resultados (filas) que obtuvo la consulta
+            
+            $num_reg = $ejecutar_consulta->num_rows;
+
+    6) Por ultimo cerramos la conexion a la BD con mysqli_close(conexion);
+
+        mysqli_close($conexion) or die("Ocurrio un error al cerrar la conexion");
+        echo "Conexion cerrada <br/>";
+
+        ***********************************************************************************************
+        PARA CERRAR LA CONEXION CON mysqli (METODO NUEVO) ES ASI:
+            Ejecuto la funcion close de la variable $conexion:
+
+                $conexio->close();  
+        ***********************************************************************************************
